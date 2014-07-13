@@ -1,3 +1,3 @@
 smoothie
 ========
-The data file was downloaded and unzipped manually
+The data file was downloaded and unzipped manually.
