@@ -1,0 +1,35 @@
+print("Reading Text File")
+h<-read.table("household_power_consumption.txt",sep=";",header=TRUE)
+print("File Read Over")
+# subset the file into smaller chunk
+loa3=(as.character(h$Date)=="1/2/2007") | (as.character(h$Date)=="2/2/2007")
+a5=h[loa3,]
+#convert data into suitable formats
+a5gap=as.numeric(as.character(a5$Global_active_power))
+a5qw=as.numeric(as.character(a5$Sub_metering_1))
+a5qwe=as.numeric(as.character(a5$Sub_metering_2))
+a5qwer=as.numeric(as.character(a5$Sub_metering_3))
+ad1=as.numeric(as.character(a5$Voltage))
+ad2=as.numeric(as.character(a5$Global_reactive_power))
+#converting date into suitable format
+a5d=substr(a5$Date,1,1)
+a5m=substr(a5$Date,3,3)
+a5ds=paste("2007","-0",a5m,"-0",a5d,sep="")
+a5myd=paste(a5ds,a5$Time,sep=" ")
+a5mydf=as.POSIXlt(a5myd)
+
+# draw graph
+png(file="Plot4.png")
+par(mfcol=c(2,2))
+with(a5,plot(a5mydf,a5gap, type="n",xlab="",ylab="Global Active Power",cex.lab=0.9))
+lines(a5mydf,a5gap,lty=1, col="black")
+with(a5,plot(a5mydf,a5qw,type="n",xlab="",ylab="Energy sub metering",cex.lab=0.9))
+lines(a5mydf,a5qw,lty=1, col="black")
+lines(a5mydf,a5qwe,lty=1, col="red")
+lines(a5mydf,a5qwer,lty=1, col="blue")
+legend("topright",bty="n",lwd=2,col=c("black","red","blue"), legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),pt.cex=1,cex=0.8)
+plot(a5mydf,ad1,type="n",xlab="datetime",ylab="Voltage",cex.lab=0.9)
+lines(a5mydf,ad1,lty=1, col="black")
+plot(a5mydf,ad2,type="n",xlab="datetime",ylab="Global_reactive_power",cex.lab=0.9)
+lines(a5mydf,ad2,lty=1, lwd=0.1, col="black")
+dev.off()
