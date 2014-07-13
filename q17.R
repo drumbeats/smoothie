@@ -1,5 +1,0 @@
-library(datasets)
-data(mtcars)
-a<-subset(mtcars,mtcars$cyl==4,select=c(hp))
-b<-subset(mtcars,mtcars$cyl==8,select=c(hp))
-mean(b$hp)-mean(a$hp)
